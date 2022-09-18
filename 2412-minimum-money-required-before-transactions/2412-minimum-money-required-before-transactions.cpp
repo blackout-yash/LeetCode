@@ -5,14 +5,6 @@ bool compare(pair <ll, ll> &a, pair <ll, ll> &b){
 
 class Solution {
 public:    
-    bool isPossible(ll &ans, vector <pair <ll, ll>> &store){
-        bool flag = 0;
-        for(auto x: store){
-            if(-x.first > ans) return false;
-            ans += (x.second + x.first);
-        } return true;
-    }
-    
     long long minimumMoney(vector<vector<int>> &transactions) {
         vector <pair <ll, ll>> poss, loss;
         for(auto x: transactions){
@@ -26,17 +18,22 @@ public:
         } 
         sort(loss.begin(), loss.end(), compare);
         sort(poss.begin(), poss.end());
-                
-        ll ans = 1e18, low = 0, high = 1e18;
-        while(low <= high) {
-            ll mid =  low + (high - low) / 2, temp = mid;
-            if(isPossible(temp, loss)) {
-                if(isPossible(temp, poss)) {
-                    ans = min(ans, mid);
-                    high = mid - 1;
-                } else low = mid + 1;
-            } else low = mid + 1;
+        
+        ll ans = 0, curr = 0;
+        for(auto x: loss){
+            if(-x.first >= curr) {
+                ans += (-x.first - curr);
+                curr = -x.first;
+            } curr += (x.first + x.second); 
         }
+        
+        for(auto x: poss){
+            if(-x.first >= curr) {
+                ans += (-x.first - curr);
+                curr = -x.first;
+            } curr += (x.first + x.second); 
+        }
+        
         return ans;
     }
 };
