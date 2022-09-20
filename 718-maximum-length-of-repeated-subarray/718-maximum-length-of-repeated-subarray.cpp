@@ -1,22 +1,16 @@
 class Solution {
-public:
-    int findLength(int n, int m, vector<int> &nums1, vector<int> &nums2, vector <vector <int>> &dp) {
-        if(n == -1 || m == -1) return 0;
-        else if(dp[n][m] != -1) return dp[n][m];
-        
-        int taken = 0;
-        if(nums1[n] == nums2[m]) taken = 1 + findLength(n - 1, m - 1, nums1, nums2, dp);
-        
-        findLength(n - 1, m, nums1, nums2, dp);
-        findLength(n, m - 1, nums1, nums2, dp);        
-        
-        return dp[n][m] = taken;
-    }
-    
+public:  
     int findLength(vector<int> &nums1, vector<int> &nums2) {
         int n = nums1.size(), m = nums2.size();
-        vector <vector <int>> dp(n, vector <int> (m, -1));
-        findLength(n - 1, m - 1, nums1, nums2, dp);
+        vector <vector <int>> dp(n, vector <int> (m));
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(nums1[i] == nums2[j]) {
+                    if(i && j) dp[i][j] = 1 + dp[i - 1][j - 1];
+                    else dp[i][j] = 1;
+                }
+            }
+        }
         
         int ans = 0;
         for(auto x: dp){
