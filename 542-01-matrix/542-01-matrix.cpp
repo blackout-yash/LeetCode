@@ -31,10 +31,11 @@ public:
                 int currX = x + move[0], currY = y + move[1];
                 if(isValid(currX, currY, n, m)){
                     if(vis[currX][currY]) {
-                        if(ans[currX][currY] > 1 + ans[x][y]){
-                            q.push({currX, currY});
-                            ans[currX][currY] = 1 + ans[x][y];
-                        } continue;
+                        // if(ans[currX][currY] > 1 + ans[x][y]){
+                        //     q.push({currX, currY});
+                        //     ans[currX][currY] = 1 + ans[x][y];
+                        // } 
+                        continue;
                     }
                     q.push({currX, currY});
                     vis[currX][currY] = 1;
