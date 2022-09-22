@@ -10,7 +10,6 @@ public:
                 continue;
             }
             if(!dfs(child, vis, isSafe, graph)) return isSafe[child] = isSafe[root] = false;
-            else isSafe[child] = true;
         }
         return isSafe[root] = true;
     }
