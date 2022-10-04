@@ -36,6 +36,8 @@ public:
 		while (!q.empty()) {
 			string curr = q.front();
 			q.pop();
+            
+            if(curr == endWord) break;
 
 			for (int i = 0; i < curr.size(); i++) {
 				string str = curr;
