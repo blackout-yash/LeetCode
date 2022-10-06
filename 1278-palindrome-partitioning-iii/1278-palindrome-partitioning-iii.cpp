@@ -20,14 +20,17 @@ public:
 		vector <vector<int>> dp(n, vector<int> (k, 1e9));
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < min(k, i + 1); j++) {
+                // if there is no partition                 
                 if(!j) {
                     dp[i][j] = pal[0][i];
                     continue;
                 }
                 
+                // this loop only runs when there is partition
+                // the ind can't run till 0 
+                // if take ind as 0, then, we can't make j paritions in array                
 				for (int ind = i; ind >= 1; ind--) {
-					int ans = pal[ind][i];
-				    if (ind) ans += dp[ind - 1][j - 1];
+					int ans = pal[ind][i] + dp[ind - 1][j - 1];
 				    dp[i][j] = min(dp[i][j], ans);
 				}
 			}
