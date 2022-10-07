@@ -1,34 +1,19 @@
-#include<ext/pb_ds/assoc_container.hpp>
-#include<ext/pb_ds/tree_policy.hpp>
-
-using namespace __gnu_pbds;
-
-typedef tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update > multipbds;
-
 class MyCalendarThree {
 public:
-    int i;
-    set <int> s;
-    multipbds l, r;
-	MyCalendarThree() {i = 0;}
-
-	int book(int start, int end) {
-		end = end - 1;
-		s.insert(end);
-		s.insert(start);
-		l.insert({start, i});
-		r.insert({end, 1e9 - i});
-        i++;
-
-		int ans = 0;
-		for (auto x : s) {
-            int cnt = (r.size() - r.order_of_key({x, 0}));
-			cnt -= (l.size() - l.order_of_key({x, 1e9}));
-            ans = max(ans, cnt);
-		}
-
-		return ans;
-	}
+    map <int, int> m;
+    MyCalendarThree() {}
+    
+    int book(int start, int end) {
+        m[start]++;
+        m[end]--;
+        
+        int _max = 0, ans = 0;
+        for(auto x: m){
+            _max += x.second;
+            ans = max(ans, _max);
+        }
+        return ans;
+    }
 };
 
 /**
