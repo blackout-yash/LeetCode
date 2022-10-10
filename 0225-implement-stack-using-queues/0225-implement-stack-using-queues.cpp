@@ -9,10 +9,7 @@ public:
             q2.push(q1.front());
             q1.pop();
         }
-        while(!q2.empty()) {
-            q1.push(q2.front());
-            q2.pop();
-        }
+        swap(q1, q2);
     }
     
     int pop() {
