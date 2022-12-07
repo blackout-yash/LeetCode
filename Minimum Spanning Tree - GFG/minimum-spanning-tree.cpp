@@ -3,46 +3,65 @@
 using namespace std;
 
 // } Driver Code Ends
-
-class Solution {
+class DSU {
 public:
-	int spanningTree(int V, vector<vector<int>> adj[]) {
-		priority_queue <pair <int, pair<int, int>>,
-		               vector <pair <int, pair<int, int>>>,
-		               greater <pair <int, pair<int, int>>>> pq;
-		pq.push({0, {0, -1}});
-		vector <int> vis(V);
+	vector <int> parent, _size;
 
-		int mst = 0;
-		vector <pair<int, int>> path;
-		while (!pq.empty()) {
-			int wt = pq.top().first,
-			    node = pq.top().second.first,
-			    par = pq.top().second.second;
-			pq.pop();
+	DSU (int n) {
+		parent.resize(n);
+		_size.resize(n);
+	}
 
-			if (vis[node]) continue;
+	void makeSet(int v) {
+		parent[v] = v;
+		_size[v] = 1;
+	}
 
-			vis[node] = 1;
-			mst += wt;
-			path.push_back({node, par});
-			for (auto it : adj[node]) {
-				int curr = it[0],
-				    currWt = it[1];
-				if (!vis[curr]) {
-					pq.push({currWt, {curr, node}});
-				}
-			}
+	int findSet(int v) {
+		if (v == parent[v]) return v;
+		return parent[v] = findSet(parent[v]);
+	}
+
+	void unionSet(int a, int b) {
+		a = findSet(a);
+		b = findSet(b);
+		if (a != b) {
+			if (_size[a] < _size[b]) swap(a, b);
+			parent[b] = a;
+			_size[a] += _size[b];
 		}
-
-		// For printing the tree
-		// 	for (auto x : path) {
-		// 		cout << "Node: " << x.first << " Parent: " << x.second << endl;
-		// 	}
-		return mst;
 	}
 };
 
+class Solution
+{
+	public:
+	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+    int spanningTree(int V, vector<vector<int>> adj[]){
+        vector <pair <int, pair <int, int>>> edge;
+        for(int node = 0; node < V; node++) {
+            for(auto it: adj[node]) {
+                int u = node, v = it[0], wt = it[1];
+                edge.push_back({wt, {u, v}});
+            }
+        } sort(edge.begin(), edge.end());
+        
+        DSU d = DSU(V);
+        for(int node = 0; node < V; node++) d.makeSet(node);
+        
+        int mst = 0;
+        for(auto it: edge) {
+            int u = it.second.first, 
+                v = it.second.second, 
+                wt = it.first;
+            if(d.findSet(u) != d.findSet(v)) {
+                mst += wt;
+                d.unionSet(u, v);
+            }
+        }
+        return mst;
+    }
+};
 
 //{ Driver Code Starts.
 
