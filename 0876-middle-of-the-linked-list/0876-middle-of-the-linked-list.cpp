@@ -15,12 +15,12 @@ public:
         ListNode* fast = head;
         
         while(true) {    
-            if(fast == NULL || fast -> next == NULL) return slow;
+            if(fast == NULL || fast -> next == NULL) break;
             fast = fast -> next;
             fast = fast -> next;
             slow = slow -> next;
         }
         
-        return head;
+        return slow;
     }
 };
