@@ -10,6 +10,17 @@
  */
 class Solution {
 public:
+    ListNode *reverseLL(ListNode* head) {
+        ListNode *newHead = NULL;
+        while(head != NULL) {
+            ListNode *next = head -> next;
+            head -> next = newHead;
+            newHead = head;
+            head = next;
+        }
+        return newHead;
+    }
+    
     bool isPalindrome(ListNode* head) {
         ListNode *fast = head;
         ListNode *slow = head;
@@ -18,15 +29,9 @@ public:
             fast = fast -> next -> next;
             slow = slow -> next;
         }
-        
+                
         ListNode *temp = slow -> next;
-        ListNode *newHead = NULL;
-        while(temp != NULL) {
-            ListNode *next = temp -> next;
-            temp -> next = newHead;
-            newHead = temp;
-            temp = next;
-        }
+        ListNode *newHead = reverseLL(temp);
         
         ListNode *first = head;
         ListNode *second = newHead;
@@ -35,6 +40,14 @@ public:
             else if(first -> val != second -> val) return false;
             first = first -> next;
             second = second -> next;
+        }
+        
+        ListNode *reverse = reverseLL(newHead);
+        slow -> next = reverse;
+        
+        while(head) {
+            cout << head -> val << " ";
+            head = head -> next;
         }
         
         return true;
