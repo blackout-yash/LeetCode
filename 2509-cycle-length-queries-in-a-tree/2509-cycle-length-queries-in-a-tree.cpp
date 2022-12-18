@@ -5,20 +5,20 @@ public:
         for(auto x: queries) {
             int node1 = x[0], node2 = x[1],
                 cnt = 1, ans = 0;
-            map <int, int> m;
             while(true) {
-                if(!node1) break;
-                m[node1] = cnt;
-                node1 /= 2;
-                cnt++;
-            }
-            while(true) {
-                if(m.count(node2)) {
-                    ans += m[node2];
+                int level1 = log2(node1) + 1,
+                    level2 = log2(node2) + 1;
+                if(node1 == node2) {
+                    ans++;
                     break;
-                } 
-                ans++;
-                node2 /= 2;
+                } else if(level1 == level2) {
+                    node1 /= 2; node2 /= 2;
+                    ans += 2;
+                } else if(level1 > level2) {
+                    node1 /= 2; ans++;
+                } else {
+                    node2 /= 2; ans++;
+                }
             }
             store.push_back(ans);
         }
