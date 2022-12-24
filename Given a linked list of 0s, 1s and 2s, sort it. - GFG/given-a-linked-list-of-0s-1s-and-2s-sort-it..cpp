@@ -43,21 +43,21 @@ public:
 		while (true) {
 			if (head == NULL) break;
 			else if (head -> data == 0) {
-				zero -> next = new Node(0);
+				zero -> next = head;
 				zero = zero -> next;
 			} else if (head -> data == 1) {
-				one -> next = new Node(1);
+				one -> next = head;
 				one = one -> next;
 			} else {
-				two -> next = new Node(2);
+				two -> next = head;
 				two = two -> next;
 			}
 			head = head -> next;
 		}
-		if(oneH -> next) {
-		    zero -> next = oneH -> next;
-		    one -> next = twoH -> next;
-		} else zero -> next = twoH -> next;
+		
+		zero -> next = (oneH -> next) ? oneH -> next : twoH -> next;
+		one -> next = twoH -> next;
+		two -> next = NULL;
 
 		return zeroH -> next;
 	}
