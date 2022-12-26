@@ -61,13 +61,12 @@ public:
 		for (int i = 0; i < n; i++) {
 			string str;
 			Node* node = root;
-			for (int j = i; j < n; j++) str.push_back(word[j]);
-			for (auto x : str) {
-				if (!node -> containsKey(x)) {
+			for (int j = i; j < n; j++) {
+				if (!node -> containsKey(word[j])) {
 					cnt++;
-					node -> put(x, new Node());
+					node -> put(word[j], new Node());
 				} 
-				node = node -> get(x);
+				node = node -> get(word[j]);
 			}
 		}
 		return cnt;
