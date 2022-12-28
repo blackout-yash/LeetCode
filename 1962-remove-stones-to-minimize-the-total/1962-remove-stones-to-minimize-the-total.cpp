@@ -9,13 +9,13 @@ public:
         }
         
         while(k--) {
-            if(!total) break;
+            if(!total || s.empty()) break;
             auto it = *s.rbegin();
             s.erase(it);
             total -= it.first;
             it.first -= it.first/2;
             total += it.first;
-            s.insert(it);
+            if(it.first > 1) s.insert(it);
         }
         return total;
     }
