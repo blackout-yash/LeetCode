@@ -7,25 +7,13 @@ using namespace std;
 
 class Solution{
     public:
-    bool areRotations(string str1, string str2){
-        int n = str1.size(), m = str2.size();
+    bool areRotations(string s1, string s2){
+        int n = s1.size(), m = s2.size();
         if(n != m) return false;
         
-        map <string, int> map;
-        for(int i = 0; i < n; i++) {
-            string temp;
-            temp.push_back(str1[i]);
-            temp.push_back(str1[(i + 1) % n]);
-            map[temp]++;
-        }
-        for(int i = 0; i < m; i++) {
-            string temp;
-            temp.push_back(str2[i]);
-            temp.push_back(str2[(i + 1) % m]);
-            map[temp]--;
-            if(map[temp] == 0) map.erase(temp);
-        }
-        return map.empty();
+        s1 += s1;
+        if(s1.find(s2) == string::npos) return false;
+        return true;
     }
 };
 
