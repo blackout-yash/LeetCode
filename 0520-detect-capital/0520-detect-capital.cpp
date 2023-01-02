@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool isCapital(char ch) {
+    bool isCapital(char &ch) {
         return 'A' <= ch && ch <= 'Z';
     }
     
