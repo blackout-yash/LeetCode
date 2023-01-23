@@ -10,7 +10,9 @@ public:
     
     void setZeroesUtil(int i, int j, int n, int m, vector<vector<int>> &matrix) {
         if(i == n) return;
-        bool flag = (!matrix[i][j]) ? 1 : 0;
+        bool flag = (!matrix[i][j]) ? 1 : 0,
+             flag1 = (i + 1 != n && !matrix[i + 1][j]), 
+             flag2 = (j + 1 != m && !matrix[i][j + 1]);
         
         int curr_i = i, curr_j = j;
         if(curr_j + 1 == m) curr_i++, curr_j = 0;
@@ -18,9 +20,9 @@ public:
         
         setZeroesUtil(curr_i, curr_j, n, m, matrix);
             
-        if(flag){
-            row(0, j, n, matrix);
-            col(i, 0, m, matrix);
+        if(flag) {
+            if(!flag1) row(0, j, n, matrix);
+            if(!flag2) col(i, 0, m, matrix);
         }
     } 
     
