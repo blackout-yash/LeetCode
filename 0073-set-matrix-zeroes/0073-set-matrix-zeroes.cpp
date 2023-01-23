@@ -1,26 +1,31 @@
 class Solution {
 public:
-    void _row(int i, int j, int n, vector<vector<int>> &matrix) {
+    void row(int i, int j, int n, vector<vector<int>> &matrix) {
         while(i < n) matrix[i++][j] = 0;
     }
     
-    void _col(int i, int j, int m, vector<vector<int>> &matrix) {
+    void col(int i, int j, int m, vector<vector<int>> &matrix) {
         while(j < m) matrix[i][j++] = 0;
     }
     
-    void setZeroes(vector<vector<int>>& matrix) {
-        int n = matrix.size(), m = matrix[0].size();
-        vector <int> row(n), col(m);
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                if(!matrix[i][j]) {
-                    row[i] = 1;
-                    col[j] = 1;
-                }
-            }
-        }
+    void setZeroesUtil(int i, int j, int n, int m, vector<vector<int>> &matrix) {
+        if(i == n) return;
+        bool flag = (!matrix[i][j]) ? 1 : 0;
         
-        for(int i = 0; i < m; i++) if(col[i]) _row(0, i, n, matrix);
-        for(int i = 0; i < n; i++) if(row[i]) _col(i, 0, m, matrix);
+        int curr_i = i, curr_j = j;
+        if(curr_j + 1 == m) curr_i++, curr_j = 0;
+        else curr_j++;
+        
+        setZeroesUtil(curr_i, curr_j, n, m, matrix);
+            
+        if(flag){
+            row(0, j, n, matrix);
+            col(i, 0, m, matrix);
+        }
+    } 
+    
+    void setZeroes(vector<vector<int>> &matrix) {
+        int n = matrix.size(), m = matrix[0].size();
+        setZeroesUtil(0, 0, n, m, matrix);
     } 
 };
