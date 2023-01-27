@@ -1,22 +1,22 @@
 class Solution {
 public:
 	map <string, bool> m;
-	bool isPossible(int i, int n, string &curr, string &s, vector <vector<int>> &dp) {
-		int j = curr.size();
-		if (i == n) return 1;
-		else if (dp[i][j] != -1) return dp[i][j];
-
-		bool ans = 0;
-		for (int k = i; k < n; k++) {
-			curr.push_back(s[k]);
-			if (m.count(curr) && curr.size() != n) {
-				string temp;
-				ans |= isPossible(k + 1, n, temp, s, dp);
+	bool isPossible(string &s) {
+		int n = s.size();
+		vector <int> dp(n);
+		for (int i = n - 1; i >= 0; i--) {
+			string curr;
+			for (int j = i; j < n; j++) {
+				curr.push_back(s[j]);
+				if (m.count(curr) && curr.size() != n) {
+					if (j + 1 >= n) dp[i] = 1;
+					else dp[i] = dp[j + 1];
+				}
+                if(dp[i]) break;
 			}
 		}
-
-		while (curr.size() != j) curr.pop_back();
-		return dp[i][j] = ans;
+        
+		return dp[0];
 	}
 
 	vector <string> findAllConcatenatedWordsInADict(vector<string>& words) {
@@ -24,10 +24,7 @@ public:
 
 		vector <string> ans;
 		for (auto x : words) {
-			string temp;
-			int n = x.size();
-			vector <vector<int>> dp(n, vector<int> (n + 1, -1));
-			if (isPossible(0, n, temp, x, dp)) ans.push_back(x);
+			if (isPossible(x)) ans.push_back(x);
 		}
 		return ans;
 	}
