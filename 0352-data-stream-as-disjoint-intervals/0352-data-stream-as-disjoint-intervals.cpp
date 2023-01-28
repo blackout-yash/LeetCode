@@ -5,7 +5,7 @@ public:
     }
     
     void addNum(int value) {
-        auto it = _map.upper_bound(value);
+        auto it = _map.lower_bound(value);
         bool merged = false;
         if(it != _map.begin()) {
             auto prev = it;
