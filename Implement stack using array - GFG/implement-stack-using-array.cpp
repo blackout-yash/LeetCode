@@ -48,8 +48,7 @@ int main()
 
 //Function to push an integer into the stack.
 void MyStack :: push(int x){
-    top += 1;
-    arr[top] = x;
+    arr[++top] = x;
 }
 
 //Function to remove an item from top of the stack.
