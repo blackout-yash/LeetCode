@@ -1,23 +1,32 @@
 class MinStack {
 public:
-    stack <pair <int, int>> s;
+    long _min;
+    stack <long> s;
+    
     MinStack() {}
     
     void push(int val) {
-        if(s.empty()) s.push({val, val});
-        else s.push({val, min(s.top().second, val)});
+        if(s.empty()) {
+            _min = val;
+            s.push(val);
+        } else if(_min > val) {
+            s.push(2l * val - _min);
+            _min = val;
+        } else s.push(val);
     }
     
     void pop() {
+        if(_min >= s.top()) _min = 2l * _min - s.top();
         s.pop();
     }
     
     int top() {
-        return s.top().first;
+        if(_min <= s.top()) return s.top();
+        return _min;
     }
     
     int getMin() {
-        return s.top().second;
+        return _min;
     }
 };
 
