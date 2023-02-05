@@ -1,11 +1,11 @@
 class Solution {
 public:
-	int maximalRectangleUtil(int n, vector <int> &arr) {
+	int maximalRectangleUtil(int n, vector <int> &height) {
 		int ans = 0;
 		stack <int> s;
 		for (int i = 0; i <= n; i++) {
-			while (s.size() && (i == n || arr[s.top()] > arr[i])) {
-				int num = arr[s.top()],
+			while (s.size() && (i == n || height[s.top()] > height[i])) {
+				int num = height[s.top()],
 				    left = s.top(),
 				    right = i - s.top();
 				s.pop();
@@ -19,15 +19,14 @@ public:
 
 	int maximalRectangle(vector<vector<char>>& matrix) {
 		int ans = 0, n = matrix.size(), m = matrix[0].size();
-		vector <int> prev(m);
+		vector <int> height(m);
 		for (int i = 0; i < n; i++) {
-			vector <int> temp(m);
 			for (int j = 0; j < m; j++) {
-				if (matrix[i][j] == '1') temp[j] = 1 + prev[j];
+				if (matrix[i][j] == '1') height[j] = 1 + height[j];
+				else height[j] = 0;
 			}
-			int curr = maximalRectangleUtil(m, temp);
+			int curr = maximalRectangleUtil(m, height);
 			ans = max(ans, curr);
-			prev = temp;
 		}
 		return ans;
 	}
