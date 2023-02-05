@@ -64,6 +64,7 @@ public:
 			Node* dummy = tail -> prev;
 			m.erase(dummy -> key);
 			remove(dummy);
+            delete(dummy);
 		}
 
 		Node* dummy = new Node(key, value);
