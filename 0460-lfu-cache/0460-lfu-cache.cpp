@@ -57,27 +57,16 @@ public:
 		}
 	}
 
-	void UpdateMinFreq() {
-		if (keyNode.empty()) {
-            minFreq = 0;
-            return;
-        }
-		while (true) {
-			if (freqNode[minFreq] -> size) break;
-			else minFreq++;
-		}
-	}
-
 	void updateNode(Node* dummy) {
 		int currFreq = dummy -> cnt;
 		freqNode[currFreq] -> remove(dummy);
+        if(currFreq == minFreq && freqNode[currFreq] -> size == 0) minFreq++;
 
 		int nextFreq = currFreq + 1;
 		addNextFreq(nextFreq);
 
 		dummy -> cnt = nextFreq;
 		freqNode[nextFreq] -> add(dummy);
-        UpdateMinFreq();
 	}
 
 	LFUCache(int capacity) {
@@ -86,7 +75,6 @@ public:
 	}
 
 	int get(int key) {
-        if(!cap) return -1;
 		if (keyNode.count(key)) {
 			Node* dummy = keyNode[key];
 			updateNode(dummy);
@@ -105,9 +93,10 @@ public:
 
 		if (keyNode.size() == cap) {
 			List* dummy = freqNode[minFreq];
-            keyNode.erase(dummy -> tail -> prev -> key);
-			dummy -> remove(dummy -> tail -> prev);
-			UpdateMinFreq();
+            Node* extra = dummy -> tail -> prev;
+            keyNode.erase(extra -> key);
+			dummy -> remove(extra);
+            delete(extra);
 		}
 
 		minFreq = 1;
