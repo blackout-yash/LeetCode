@@ -10,8 +10,7 @@ public:
 
 	bool insertFront(int value) {
 		if (isFull()) return 0;
-		else if (front == -1) front = 0;
-		else front = (front - 1 + size) % size;
+		front = (front - 1 + size) % size;
 		arr[front] = value;
 		if (rear == -1) rear = front;
 		return 1;
