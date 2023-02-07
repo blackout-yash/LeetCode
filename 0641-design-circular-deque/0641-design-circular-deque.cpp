@@ -1,58 +1,91 @@
-class MyCircularDeque {
+class Node {
 public:
-	int *arr;
-	int front, rear, size;
+	int val;
+	Node* next;
+	Node* prev;
+	Node(int value) {
+		val = value;
+		next = prev = NULL;
+	}
+};
+
+class MyCircularDeque {
+	Node* front;
+    Node* rear;
+	int maxSize, currSize;
+public:
+	void remove(Node* node) {
+		Node* next = node -> next;
+		Node* prev = node -> prev;
+		prev -> next = next;
+		next -> prev = prev;
+	}
+
+	void insert(Node* node, int value) {
+		Node* dummy = new Node(value);
+		Node* next = node -> next;
+		node -> next = dummy;
+		dummy -> prev = node;
+		dummy -> next = next;
+		next -> prev = dummy;
+	}
+
 	MyCircularDeque(int k) {
-		size = k;
-		arr = new int[k];
-		front = rear = -1;
+		maxSize = k;
+		currSize = 0;
+		front = new Node(-1);
+		rear = new Node(-1);
+		front -> next = rear;
+		rear -> prev = front;
 	}
 
 	bool insertFront(int value) {
 		if (isFull()) return 0;
-		front = (front - 1 + size) % size;
-		arr[front] = value;
-		if (rear == -1) rear = front;
+		currSize++;
+		insert(front, value);
 		return 1;
 	}
 
 	bool insertLast(int value) {
 		if (isFull()) return 0;
-		rear = (rear + 1) % size;
-		arr[rear] = value;
-		if (front == -1) front = rear;
+		currSize++;
+		insert(rear -> prev, value);
 		return 1;
 	}
 
 	bool deleteFront() {
 		if (isEmpty()) return 0;
-		else if (front == rear) front = rear = -1;
-		else front = (front + 1) % size;
+		currSize--;
+		Node* dummy = front -> next;
+		remove(dummy);
+		delete(dummy);
 		return 1;
 	}
 
 	bool deleteLast() {
 		if (isEmpty()) return 0;
-		else if (front == rear) front = rear = -1;
-		else rear = (rear - 1 + size) % size;
+		currSize--;
+		Node* dummy = rear -> prev;
+		remove(dummy);
+		delete(dummy);
 		return 1;
 	}
 
 	int getFront() {
 		if (isEmpty()) return -1;
-		return arr[front];
+		return front -> next -> val;
 	}
 
 	int getRear() {
 		if (isEmpty()) return -1;
-		return arr[rear];
+		return rear -> prev -> val;
 	}
 
 	bool isEmpty() {
-		return (front == -1);
+		return (currSize == 0);
 	}
 
 	bool isFull() {
-		return ((rear + 1) % size) == front;
+		return (currSize == maxSize);
 	}
 };
