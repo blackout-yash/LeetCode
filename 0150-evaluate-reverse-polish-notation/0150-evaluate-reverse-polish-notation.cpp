@@ -1,33 +1,25 @@
-#define ll long long
 class Solution {
 public:
-	vector <ll> solve(stack <ll> &s) {
-		vector <ll> arr;
-		while (arr.size() != 2) {
-			arr.push_back(s.top());
-			s.pop();
-		}
-		return arr;
+	bool isOperator(string &s) {
+		return (s == "/" || s == "*" || s == "+" || s == "-");
 	}
 
 	int evalRPN(vector <string> &tokens) {
-		stack <ll> s;
-		for (auto x : tokens) {
-			if (x == "+") {
-				vector <ll> arr = solve(s);
-				s.push(arr[1] + arr[0]);
-			} else if (x == "-") {
-				vector <ll> arr = solve(s);
-				s.push(arr[1] - arr[0]);
-			} else if (x == "*") {
-				vector <ll> arr = solve(s);
-				s.push(arr[1] * arr[0]);
-			} else if (x == "/") {
-				vector <ll> arr = solve(s);
-				s.push(arr[1] / arr[0]);
-			} else s.push(stoi(x));
-		}
+		stack <int> s;
+		for (int i = 0; i < tokens.size(); i++) {
+			if (!isOperator(tokens[i])) s.push(stoi(tokens[i]));
+			else {
+        		int right = s.top();
+				s.pop();
+        		int left = s.top();
+				s.pop();
 
+				if (tokens[i] == "/") s.push(left / right);
+				else if (tokens[i] == "*") s.push(left * right);
+				else if (tokens[i] == "+") s.push(left + right);
+				else s.push(left - right);
+			}
+		}
 		return s.top();
 	}
 };
