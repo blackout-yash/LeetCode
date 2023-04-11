@@ -1,26 +1,34 @@
 class Solution {
 public:
-    void setBit(int n, vector <int> &bit) {
-        int i = 0;
+    void setBit(long long n, long long &curr) {
+        long long i = 0, temp = 1;
         while(n) {
-            if(n & 1) bit[i] = !bit[i];
-            n >>= 1; i++;
+            if(n & 1) {
+                if(curr & temp) curr -= temp;
+                else curr += temp;
+            }
+            temp <<= 1; n >>= 1; i++;
         }
+    }
+    
+    long long cal(long long curr) {
+        long long req = 0, temp = 1;
+        while(curr) {
+            if(curr & 1) req += temp;
+            temp <<= 1; curr >>= 1;
+        }
+        return req;
     }
     
     long long beautifulSubarrays(vector<int>& nums) {
         long long ans = 0;
-        vector <int> bit(20);
-        map <vector <int>, int> m;
-        m[bit] = 1;
+        vector <long long> cnt(1 << 21);
+        cnt[0] = 1; long long curr = 0;
         for(auto x: nums) {
-            setBit(x, bit);
-            vector <int> req(20);
-            for(int i = 0; i < 20; i++) {
-                if(bit[i]) req[i] = 1;
-            }
-            ans += m[req];
-            m[bit]++;
+            setBit(x, curr);
+            long long req = cal(curr);
+            ans += cnt[req];
+            cnt[curr]++;
         }
         return ans;
     }
