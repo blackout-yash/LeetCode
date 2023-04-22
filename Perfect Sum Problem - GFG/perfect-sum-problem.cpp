@@ -6,7 +6,6 @@ using namespace std;
 class Solution{
 	int mod=1e9+7;
 	public:
-		int add(int a, int b, int m = 1e9+7) {a %= m; b %=m; return (((a+b)%m)+m)%m;}
 
 	int func(int idx, int sum, int arr[], vector<vector<int>>&dp){
 	     if(idx == 0){
@@ -19,12 +18,12 @@ class Solution{
 	    
 	    if(dp[idx][sum]!=-1) return dp[idx][sum];
 	    
-	    int not_pick=func(idx-1,sum,arr,dp);
-	    int pick=0;
+	    long long not_pick=func(idx-1,sum,arr,dp);
+	    long long pick=0;
 	    if(sum>=arr[idx]) pick=func(idx-1,sum-arr[idx],arr,dp);
 	    
+	    return dp[idx][sum] = (not_pick + pick) % mod;
 	    return dp[idx][sum] = ((not_pick % mod) + (pick % mod)) % mod;
-	    return dp[idx][sum]= add(not_pick, pick);
 	}
 	
 	int perfectSum(int arr[], int n, int sum){
