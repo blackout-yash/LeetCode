@@ -18,12 +18,11 @@ class Solution{
 	    
 	    if(dp[idx][sum]!=-1) return dp[idx][sum];
 	    
-	    long long not_pick=func(idx-1,sum,arr,dp);
-	    long long pick=0;
+	    long not_pick=func(idx-1,sum,arr,dp);
+	    long pick=0;
 	    if(sum>=arr[idx]) pick=func(idx-1,sum-arr[idx],arr,dp);
 	    
 	    return dp[idx][sum] = (not_pick + pick) % mod;
-	    return dp[idx][sum] = ((not_pick % mod) + (pick % mod)) % mod;
 	}
 	
 	int perfectSum(int arr[], int n, int sum){
