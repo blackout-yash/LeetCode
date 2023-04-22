@@ -6,7 +6,7 @@ public:
 
         int n = str1.size(), m = str2.size();
         vector <int> dp(m);
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < n; i++) {
             vector <int> curr(m);
             for (int j = 0; j < m; j++) {
                 if (str1[i] == str2[j]) {
