@@ -23,6 +23,7 @@ class Solution{
 	    int pick=0;
 	    if(sum>=arr[idx]) pick=func(idx-1,sum-arr[idx],arr,dp);
 	    
+	    return dp[idx][sum] = ((not_pick % mod) + (pick % mod)) % mod;
 	    return dp[idx][sum]= add(not_pick, pick);
 	}
 	
