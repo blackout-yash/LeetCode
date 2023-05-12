@@ -10,7 +10,7 @@ public:
                 p = dp[i + v[i][1] + 1];
             }
             dp[i] = max(p + v[i][0], dp[i+1]);
-            ans = dp[i];
+            ans = max(ans, dp[i]);
         }
         return ans;
     }
