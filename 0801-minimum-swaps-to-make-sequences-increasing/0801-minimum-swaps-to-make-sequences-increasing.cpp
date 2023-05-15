@@ -8,13 +8,12 @@ public:
     }
     
     int minSwap(vector <int> &nums1, vector<int> &nums2) {
-        int n = nums1.size();
-        vector <vector <int>> dp(n, vector <int> (2));
-        dp[0][1] = 1;
+        int n = nums1.size(), a = 0, b = 1;
         for(int i = 1; i < n; i++) {
-            dp[i][0] = findMin(nums1[i], nums2[i], nums1[i - 1], nums2[i - 1], dp[i - 1][0], dp[i - 1][1]);
-            dp[i][1] = 1 + findMin(nums2[i], nums1[i], nums1[i - 1], nums2[i - 1], dp[i - 1][0], dp[i - 1][1]);
+            int c = findMin(nums1[i], nums2[i], nums1[i - 1], nums2[i - 1], a, b);
+            int d = 1 + findMin(nums2[i], nums1[i], nums1[i - 1], nums2[i - 1], a, b);
+            a = c; b = d;
         }
-        return min(dp[n - 1][0], dp[n - 1][1]);
+        return min(a, b);
     }
 };
