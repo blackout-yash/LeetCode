@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool dfs(int root, vector <int> &vis, vector <int> &color, vector<vector<int>> graph) {
+    bool dfs(int root, vector <int> &vis, vector <int> &color, vector<vector<int>> &graph) {
         vis[root] = 1;
         for(int child: graph[root]){
             if(vis[child]) {
