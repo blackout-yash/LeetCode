@@ -35,27 +35,29 @@ class Solution {
 public:
     int shortestSubarray(vector <int> &nums, int k) {
         ll n = nums.size(), curr = 0;
-        map <ll, int> m, ind; m[0] = -1;
+        set <ll> s = {0};
         for(int i = 0; i < n; i++) {
             curr += nums[i];
-            m[curr] = i;
+            s.insert(curr);
         }
         
         int i = 0;
-        for(auto x: m) ind[x.first] = i++;
+        map <ll, int> ind;
+        for(auto x: s) ind[x] = i++;
         
-        ll ans = 1e9, prev = 0;
         SGTree seg(n);
         seg.update(0, 0, n - 1, ind[0], -1);
+        
+        ll ans = 1e9, prev = 0;
         for(int i = 0; i < n; i++) {
             prev += nums[i];
             ll req = prev - k;
-            auto it = m.upper_bound(req); 
-            if(it == m.begin()) {}
+            auto it = s.upper_bound(req); 
+            if(it == s.begin()) {}
             else {
                 it--;
 
-                ll num = it -> first,
+                ll num = *it,
                     range = seg.query(0, 0, n - 1, 0, ind[num]);
                 if(range == -1e9) {}
                 else {
