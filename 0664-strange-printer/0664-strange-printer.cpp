@@ -10,8 +10,7 @@ public:
                     for(int k = i; k < j; k++) {
                         int ans1 = dp[i][k],
                             ans2 = dp[k + 1][j];
-                        if(s[i] == s[j]) dp[i][j] = min(dp[i][j], ans1 + ans2 - 1);
-                        else dp[i][j] = min(dp[i][j], ans1 + ans2);
+                        dp[i][j] = min(dp[i][j], ans1 + ans2 - (s[i] == s[j]));
                     }
                 }
             }
