@@ -11,27 +11,31 @@
 class Solution {
 public:
     ListNode* removeZeroSumSublists(ListNode* head) {
-        ListNode* curr = new ListNode();
-        curr -> next = head;
+        ListNode* curr = head;
         map <int, ListNode*> m;
-        m[0] = curr; curr = curr -> next;
         
         int sum = 0;
         while(curr) {
             sum += curr -> val;
+            
+            if(sum == 0) {
+                curr = curr -> next;
+                head = curr, m.clear();
+                continue;
+            }
+            
             if(m.count(sum)) {
                 ListNode* dummy = m[sum];
                 int alpha = sum;
                 while(true) {
                     ListNode *next = dummy -> next;
-                    alpha += next -> val;                    
+                    alpha += next -> val;
                     dummy -> next = next -> next;
                     if(next == curr) break;
                     else m.erase(alpha);
                 }
             } else m[sum] = curr;
             curr = curr -> next;
-            if(sum == 0) head = curr, m.clear();
         }
         return head;
     }
