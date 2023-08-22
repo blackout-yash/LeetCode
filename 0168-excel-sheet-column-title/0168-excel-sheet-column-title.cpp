@@ -10,7 +10,6 @@ public:
         }
         
         string ans; 
-        int temp = columnNumber;
         while(size-- > 1) {
             int curr = pow(26, size),
                 que = columnNumber / curr;
@@ -18,7 +17,7 @@ public:
             ans.push_back(char('A' + que));
             columnNumber -= (que * curr);
         }
-        int rem = (((temp % 26) - 1) + 26) % 26;
+        int rem = (((columnNumber % 26) - 1) + 26) % 26;
         ans.push_back(char('A' + rem));
         return ans;
     }
