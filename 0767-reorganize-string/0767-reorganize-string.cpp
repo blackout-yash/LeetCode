@@ -3,12 +3,7 @@ public:
     string reorganizeString(string s) {
         vector <int> freq(26);
         for(auto x: s) freq[x - 'a']++;
-        
-        int n = s.size(), max = n / 2 + (n % 2 != 0);
-        for(auto x: freq) {
-            if(x > max) return "";
-        }
-        
+                
         priority_queue <pair <int, char>> pq;
         for(int i = 0; i < 26; i++) {
             if(freq[i]) pq.push({freq[i], char('a' + i)});
