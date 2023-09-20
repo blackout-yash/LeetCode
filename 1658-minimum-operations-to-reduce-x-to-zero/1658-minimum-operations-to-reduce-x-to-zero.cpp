@@ -1,19 +1,29 @@
 class Solution {
 public:
     int minOperations(vector <int> &nums, int x) {
-        int n = nums.size(), i = -1, j = 1, sum1 = 0, sum2 = 0, ans = 1e9;
-        for(int i = 1; i < n; i++) sum2 += nums[i];
-        while(i < n - 1) {
-            sum1 += nums[++i];
-            while(j < n) {
-                if(sum2 == x) ans = min(ans, n - j);
-                if(sum1 + sum2 <= x) break;
-                else sum2 -= nums[j++];
-            }
-            if(sum1 == x) ans = min(ans, i + 1);
-            if(sum1 + sum2 == x && i < j) ans = min(ans, i + 1 + n - j);
+    int total = accumulate(nums.begin(), nums.end(), 0);
+    int target = total - x;
+    if (target < 0) {
+        return -1;
+    }
+    if (target == 0) {
+        return nums.size();
+    }
+    unordered_map<int, int> window;
+    int window_sum = 0;
+    int maxLen = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+        window_sum += nums[i];
+        if (window_sum == target) {
+            maxLen = i + 1;
         }
-        if(ans == 1e9) ans = -1;
-        return ans;
+        if (window.count(window_sum - target)) {
+            maxLen = max(maxLen, i - window[window_sum - target]);
+        }
+        if (!window.count(window_sum)) {
+            window[window_sum] = i;
+        }
+    }
+    return maxLen == 0 ? -1 : nums.size() - maxLen;
     }
 };
