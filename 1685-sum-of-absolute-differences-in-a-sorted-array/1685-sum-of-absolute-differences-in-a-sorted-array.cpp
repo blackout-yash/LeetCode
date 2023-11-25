@@ -11,7 +11,7 @@ public:
         vector <int> ans(n);
         for(int i = 0; i < n; i++) {
             int ind = upper_bound(begin(sorted), end(sorted), nums[i]) - sorted.begin(),
-                curr = (nums[i] * ind) - sum[ind - 1] + sum[n - 1] - sum[ind - 1] - (nums[i] * (n - ind));
+                curr = nums[i] * (2 * ind - n) + sum[n - 1] - 2 * sum[ind - 1];
             ans[i] = curr;
         }
         return ans;
